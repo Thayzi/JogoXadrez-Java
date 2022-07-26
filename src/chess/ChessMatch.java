@@ -88,7 +88,7 @@ public class ChessMatch {
 		
 		ChessPiece movedPiece = (ChessPiece)board.piece(target);
 		
-		//#Specialmove promoted
+		//#Specialmove Promotion
 		promoted = null;
 		if(movedPiece instanceof Pawn) {
 			if((movedPiece.getColor() == Color.WHITE && target.getRow() == 0) || (movedPiece.getColor() == Color.BLACK && target.getRow() == 7)) {
@@ -152,26 +152,27 @@ public class ChessMatch {
 			capturedPieces.add(capturedPiece);
 		}
 		
-		//#Specialmove castling Kingside rook
-		if(p instanceof King && target.getColum() == source.getColum() + 2) {
-			Position sourceT = new Position(source.getRow(), source.getColum() + 3);
-			Position targetT = new Position(source.getRow(), source.getColum() + 1);
+		//#Specialmove Castling Kingside Rook
+		if(p instanceof King && target.getColumn() == source.getColumn() + 2) {
+			Position sourceT = new Position(source.getRow(), source.getColumn() + 3);
+			Position targetT = new Position(source.getRow(), source.getColumn() + 1);
 			ChessPiece rook = (ChessPiece)board.removePiece(sourceT);
 			board.placePiece(rook,  targetT);
 			rook.increaseMoveCount();
 		}
 		
-		//#Specialmove castling Kingside rook
-		if(p instanceof King && target.getColum() == source.getColum() - 2) {
-			Position sourceT = new Position(source.getRow(), source.getColum() - 4);
-			Position targetT = new Position(source.getRow(), source.getColum() - 1);
+		//#Specialmove Castling Kingside Rook
+		if(p instanceof King && target.getColumn() == source.getColumn() - 2) {
+			Position sourceT = new Position(source.getRow(), source.getColumn() - 4);
+			Position targetT = new Position(source.getRow(), source.getColumn() - 1);
 			ChessPiece rook = (ChessPiece)board.removePiece(sourceT);
 			board.placePiece(rook,  targetT);
 			rook.increaseMoveCount();
 		}
+		
 		//#Specialmove en passant
 		if(p instanceof Pawn) {
-			if(source.getColum() != target.getColumn() && capturedPiece == null) {
+			if(source.getColumn() != target.getColumn() && capturedPiece == null) {
 				Position pawnPosition;
 				if(p.getColor() == Color.WHITE) {
 					pawnPosition = new Position(target.getRow() + 1, target.getColumn());
@@ -198,19 +199,19 @@ public class ChessMatch {
 			piecesOnTheBoard.add(capturedPiece);
 		}
 		
-		//#Specialmove castling Kingside rook
-		if(p instanceof King && target.getColum() == source.getColum() + 2) {
-			Position sourceT = new Position(source.getRow(), source.getColum() + 3);
-			Position targetT = new Position(source.getRow(), source.getColum() + 1);
+		//#Specialmove Castling Kingside Rook
+		if(p instanceof King && target.getColumn() == source.getColumn() + 2) {
+			Position sourceT = new Position(source.getRow(), source.getColumn() + 3);
+			Position targetT = new Position(source.getRow(), source.getColumn() + 1);
 			ChessPiece rook = (ChessPiece)board.removePiece(targetT);
 			board.placePiece(rook,  sourceT);
 			rook.decreaseMoveCount();
 		}
 				
-		//#Specialmove castling Kingside rook
-		if(p instanceof King && target.getColum() == source.getColum() - 2) {
-			Position sourceT = new Position(source.getRow(), source.getColum() - 4);
-			Position targetT = new Position(source.getRow(), source.getColum() - 1);
+		//#Specialmove castling Queenside rook
+		if(p instanceof King && target.getColumn() == source.getColumn() - 2) {
+			Position sourceT = new Position(source.getRow(), source.getColumn() - 4);
+			Position targetT = new Position(source.getRow(), source.getColumn() - 1);
 			ChessPiece rook = (ChessPiece)board.removePiece(targetT);
 			board.placePiece(rook,  sourceT);
 			rook.decreaseMoveCount();
@@ -218,7 +219,7 @@ public class ChessMatch {
 		
 		//#Specialmove en passant
 		if(p instanceof Pawn) {
-			if(source.getColum() != target.getColumn() && capturedPiece == enPassantVulnerable) {
+			if(source.getColumn() != target.getColumn() && capturedPiece == enPassantVulnerable) {
 				ChessPiece pawn = (ChessPiece)board.removePiece(target);
 				Position pawnPosition;
 				if(p.getColor() == Color.WHITE) {
@@ -274,7 +275,7 @@ public class ChessMatch {
 		List<Piece> opponentPieces = piecesOnTheBoard.stream().filter(x -> ((ChessPiece)x).getColor() == opponent (color)).collect(Collectors.toList());
 		for(Piece p : opponentPieces) {
 			boolean[][] mat = p.possibleMoves();
-			if(mat[kingPosition.getRow()][kingPosition.getColum()]) {
+			if(mat[kingPosition.getRow()][kingPosition.getColumn()]) {
 				return true;
 			}
 		}
